@@ -26,6 +26,9 @@ async function run() {
     await client.connect();
 
     const artCollection = client.db("artDB").collection("art");
+    const subCategoryCollection = client
+      .db("artDB")
+      .collection("subCategoryCollection");
 
     app.get("/art", async (req, res) => {
       const cursor = artCollection.find();
@@ -81,6 +84,26 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await artCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // sub-category collection
+    app.get("/subCategory", async (req, res) => {
+      const cursor = subCategoryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/subCategory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await subCategoryCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.post("/subCategory", async (req, res) => {
+      const newSubCategory = req.body;
+      const result = await subCategoryCollection.insertOne(newSubCategory);
       res.send(result);
     });
 
