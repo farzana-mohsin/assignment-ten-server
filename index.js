@@ -30,27 +30,27 @@ async function run() {
       .db("artDB")
       .collection("subCategoryCollection");
 
-    app.get("/art", async (req, res) => {
+    app.get("/items", async (req, res) => {
       const cursor = artCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    app.post("/art", async (req, res) => {
+    app.post("/items", async (req, res) => {
       const newArt = req.body;
       console.log(newArt);
       const result = await artCollection.insertOne(newArt);
       res.send(result);
     });
 
-    app.get("/art/:id", async (req, res) => {
+    app.get("/items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await artCollection.findOne(query);
       res.send(result);
     });
 
-    app.put("/art/:id", async (req, res) => {
+    app.put("/items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const currentArt = await artCollection.findOne(query);
@@ -80,7 +80,7 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/art/:id", async (req, res) => {
+    app.delete("/items/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await artCollection.deleteOne(query);
@@ -88,20 +88,20 @@ async function run() {
     });
 
     // sub-category collection
-    app.get("/subCategory", async (req, res) => {
+    app.get("/subcategories", async (req, res) => {
       const cursor = subCategoryCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    app.get("/subCategory/:id", async (req, res) => {
+    app.get("/subcategories/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await subCategoryCollection.findOne(query);
       res.send(result);
     });
 
-    app.post("/subCategory", async (req, res) => {
+    app.post("/subcategories", async (req, res) => {
       const newSubCategory = req.body;
       const result = await subCategoryCollection.insertOne(newSubCategory);
       res.send(result);
