@@ -33,6 +33,13 @@ async function run() {
       res.send(result);
     });
 
+    app.post("/art", async (req, res) => {
+      const newArt = req.body;
+      console.log(newArt);
+      const result = await artCollection.insertOne(newArt);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
