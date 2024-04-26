@@ -47,6 +47,36 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/art/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const currentArt = await artCollection.findOne(query);
+
+      const updatedArt = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const art = {
+        $set: {
+          image: updatedArt.image || currentArt.image,
+          item_name: updatedArt.item_name || currentArt.item_name,
+          subcategory_name:
+            updatedArt.subcategory_name || currentArt.subcategory_name,
+          short_description:
+            updatedArt.short_description || currentArt.short_description,
+          price: updatedArt.price || currentArt.price,
+          rating: updatedArt.rating || currentArt.rating,
+          processing_time:
+            updatedArt.processing_time || currentArt.processing_time,
+          stock_status: updatedArt.stock_status || currentArt.stock_status,
+          user_email: updatedArt.user_email || currentArt.user_email,
+          user_name: updatedArt.user_name || currentArt.user_name,
+        },
+      };
+
+      const result = await artCollection.updateOne(filter, art, options);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
