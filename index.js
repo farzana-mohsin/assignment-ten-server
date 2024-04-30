@@ -1,4 +1,5 @@
 require("dotenv").config();
+console.log(process.env);
 
 const express = require("express");
 const cors = require("cors");
@@ -7,11 +8,19 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors());
+app.use(
+  cors()
+  //   {
+  //   origin: [
+  //     "http://localhost:5173",
+  //     "https://assignment-ten-server-lilac.vercel.app",
+  //   ],
+  // }
+);
 app.use(express.json());
 
-// const uri = "mongodb://localhost:27017";
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster81657.uygasmd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster81657`;
+const uri = "mongodb://localhost:27017";
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster81657.uygasmd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster81657&maxIdleTimeMS=60000000000`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
